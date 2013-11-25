@@ -1,0 +1,15 @@
+This branch of chruby contains a Puppet module to assist with installing
+chruby onto a system.  It contains only one class: `chruby::install`.  This
+will install:
+
+ * `chruby-exec` into `/usr/local/bin`;
+
+ * `auto.sh` and `chruby.sh` into `/usr/local/share/chruby`; and
+
+ * a fragment into `/etc/profile.d` which will populate the `RUBIES`
+   environment variable with the contents of `/usr/local/lib/rubies` and
+   source `chruby.sh` for support in your shell.
+
+This module is designed to work closely with our
+[ruby-build](https://github.com/anchor/ruby-build) Puppet module.  They're
+two great tastes that taste great together.
