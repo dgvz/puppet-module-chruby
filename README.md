@@ -32,9 +32,9 @@ Changes the current Ruby.
 
 ## Install
 
-    wget -O chruby-0.3.7.tar.gz https://github.com/postmodern/chruby/archive/v0.3.7.tar.gz
-    tar -xzvf chruby-0.3.7.tar.gz
-    cd chruby-0.3.7/
+    wget -O chruby-0.3.8.tar.gz https://github.com/postmodern/chruby/archive/v0.3.8.tar.gz
+    tar -xzvf chruby-0.3.8.tar.gz
+    cd chruby-0.3.8/
     sudo make install
 
 ### PGP
@@ -43,8 +43,8 @@ All releases are [PGP] signed for security. Instructions on how to import my
 PGP key can be found on my [blog][1]. To verify that a release was not tampered 
 with:
 
-    wget https://raw.github.com/postmodern/chruby/master/pkg/chruby-0.3.7.tar.gz.asc
-    gpg --verify chruby-0.3.7.tar.gz.asc chruby-0.3.7.tar.gz
+    wget https://raw.github.com/postmodern/chruby/master/pkg/chruby-0.3.8.tar.gz.asc
+    gpg --verify chruby-0.3.8.tar.gz.asc chruby-0.3.8.tar.gz
 
 ### setup.sh
 
@@ -59,6 +59,10 @@ via `sudo`:
 chruby can also be installed with [homebrew]:
 
     brew install chruby
+
+Or the absolute latest chruby can be installed from source:
+
+    brew install chruby --HEAD
 
 ### Arch Linux
 
@@ -169,11 +173,13 @@ If you have enabled auto-switching, simply create a `.ruby-version` file:
 
 For instructions on using chruby with other tools, please see the [wiki]:
 
-* [Sudo](https://github.com/postmodern/chruby/wiki/Sudo)
+* [Capistrano](https://github.com/capistrano/chruby#readme)
+* [Chef](https://github.com/Atalanta/chef-chruby#readme)
 * [Cron](https://github.com/postmodern/chruby/wiki/Cron)
-* [Capistrano](https://github.com/postmodern/chruby/wiki/Capistrano)
 * [Emacs](https://github.com/arnebrasseur/chruby.el#readme)
 * [Pow](https://github.com/postmodern/chruby/wiki/Pow)
+* [Puppet](https://github.com/dgoodlad/puppet-chruby#readme)
+* [Sudo](https://github.com/postmodern/chruby/wiki/Sudo)
 * [Vim](https://github.com/postmodern/chruby/wiki/Vim)
 
 ## Examples

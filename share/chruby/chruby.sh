@@ -1,4 +1,4 @@
-CHRUBY_VERSION="0.3.7"
+CHRUBY_VERSION="0.3.8"
 RUBIES=()
 
 for dir in "$PREFIX/opt/rubies" "$HOME/.rubies"; do
@@ -82,7 +82,10 @@ function chruby()
 			local dir match
 			for dir in "${RUBIES[@]}"; do
 				dir="${dir%%/}"
-				[[ "${dir##*/}" == *"$1"* ]] && match="$dir"
+				case "${dir##*/}" in
+					"$1")	match="$dir" && break ;;
+					*"$1"*)	match="$dir" ;;
+				esac
 			done
 
 			if [[ -z "$match" ]]; then

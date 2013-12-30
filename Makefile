@@ -1,5 +1,5 @@
 NAME=chruby
-VERSION=0.3.7
+VERSION=0.3.8
 AUTHOR=postmodern
 URL=https://github.com/$(AUTHOR)/$(NAME)
 
@@ -28,7 +28,7 @@ build: pkg
 sign: $(PKG)
 	gpg --sign --detach-sign --armor $(PKG)
 	git add $(PKG).asc
-	git commit $(PKG).asc -m "Added PGP signature for v$(VERSION) [ci skip]"
+	git commit $(PKG).asc -m "Added PGP signature for v$(VERSION)"
 	git push origin master
 
 verify: $(PKG) $(SIG)

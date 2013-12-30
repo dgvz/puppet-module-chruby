@@ -25,10 +25,12 @@ function print_variable()
 
 function print_version()
 {
-	local path="$(command -v "$1")"
+	local full_path="$(command -v "$1")"
 
-	if [[ -n "$path" ]]; then
-		indent "$("$1" --version | head -n 1) ($path)"
+	if [[ -n "$full_path" ]]; then
+		local version="$(("$1" --version || "$1" -V) 2>/dev/null)"
+
+		indent "$(echo "$version" | head -n 1) [$full_path]"
 	fi
 }
 
@@ -54,6 +56,10 @@ print_variable "RUBY_ROOT"
 print_variable "RUBY_VERSION"
 print_variable "RUBY_ENGINE"
 print_variable "RUBY_AUTO_VERSION"
+print_variable "RUBYLIB"
+print_variable "RUBYOPT"
+print_variable "RUBYPATH"
+print_variable "RUBYSHELL"
 print_variable "GEM_ROOT"
 print_variable "GEM_HOME"
 print_variable "GEM_PATH"
