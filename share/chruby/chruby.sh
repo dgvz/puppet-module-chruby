@@ -1,10 +1,14 @@
 CHRUBY_VERSION="0.3.8"
 RUBIES=()
 
-for dir in "$PREFIX/opt/rubies" "$HOME/.rubies"; do
+RUBIES_PATH="${RUBIES_PATH:-$PREFIX/opt/rubies:$HOME/.rubies}"
+
+IFS=":"
+for dir in $RUBIES_PATH; do
 	[[ -d "$dir" && -n "$(ls -A "$dir")" ]] && RUBIES+=("$dir"/*)
 done
 unset dir
+unset IFS
 
 function chruby_reset()
 {
@@ -59,6 +63,12 @@ EOF
 
 function chruby()
 {
+	if [ -n "$_RUBIES" ]; then
+		IFS=:
+		RUBIES=($_RUBIES)
+		unset IFS
+	fi
+	
 	case "$1" in
 		-h|--help)
 			echo "usage: chruby [RUBY|VERSION|system] [RUBY_OPTS]"
@@ -98,3 +108,9 @@ function chruby()
 			;;
 	esac
 }
+
+# This makes sure that all our chruby goodness ends up in subshells as well
+IFS=:; export _RUBIES="${RUBIES[*]}"; unset IFS
+export -f chruby
+export -f chruby_use
+export -f chruby_reset
