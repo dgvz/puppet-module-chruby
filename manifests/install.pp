@@ -4,6 +4,7 @@ class chruby::install {
 			ensure  => directory,
 			source  => "puppet:///modules/chruby/share/chruby",
 			recurse => true,
+			mode    => 0555,
 			purge   => true;
 		"/usr/local/bin/chruby-exec":
 			ensure  => file,
