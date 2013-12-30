@@ -1,10 +1,14 @@
 CHRUBY_VERSION="0.3.8"
 RUBIES=()
 
-for dir in "$PREFIX/opt/rubies" "$HOME/.rubies"; do
+RUBIES_PATH="${RUBIES_PATH:-$PREFIX/opt/rubies:$HOME/.rubies}"
+
+IFS=":"
+for dir in $RUBIES_PATH; do
 	[[ -d "$dir" && -n "$(ls -A "$dir")" ]] && RUBIES+=("$dir"/*)
 done
 unset dir
+unset IFS
 
 function chruby_reset()
 {
