@@ -63,6 +63,12 @@ EOF
 
 function chruby()
 {
+	if [ -n "$_RUBIES" ]; then
+		IFS=:
+		RUBIES=($_RUBIES)
+		unset IFS
+	fi
+	
 	case "$1" in
 		-h|--help)
 			echo "usage: chruby [RUBY|VERSION|system] [RUBY_OPTS]"
@@ -102,3 +108,9 @@ function chruby()
 			;;
 	esac
 }
+
+# This makes sure that all our chruby goodness ends up in subshells as well
+IFS=:; export _RUBIES="${RUBIES[*]}"; unset IFS
+export -f chruby
+export -f chruby_use
+export -f chruby_reset
