@@ -12,7 +12,7 @@ class chruby::install {
 			mode    => 0555,
 			owner   => "root",
 			group   => "root";
-		"/etc/profile.d/chruby":
+		"/etc/profile.d/chruby.sh":
 			source  => "puppet:///modules/chruby/etc/profile.d/chruby.sh",
 			mode    => 0444,
 			owner   => "root",
