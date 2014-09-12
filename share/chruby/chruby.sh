@@ -21,11 +21,11 @@ function chruby_reset()
 		[[ -n "$GEM_ROOT" ]] && PATH="${PATH//:$GEM_ROOT\/bin:/:}"
 
 		GEM_PATH=":$GEM_PATH:"
-		GEM_PATH="${GEM_PATH//:$GEM_HOME:/:}"
-		GEM_PATH="${GEM_PATH//:$GEM_ROOT:/:}"
+		[[ -n "$GEM_HOME" ]] && GEM_PATH="${GEM_PATH//:$GEM_HOME:/:}"
+		[[ -n "$GEM_ROOT" ]] && GEM_PATH="${GEM_PATH//:$GEM_ROOT:/:}"
 		GEM_PATH="${GEM_PATH#:}"; GEM_PATH="${GEM_PATH%:}"
-		[[ -z "$GEM_PATH" ]] && unset GEM_PATH
 		unset GEM_ROOT GEM_HOME
+		[[ -z "$GEM_PATH" ]] && unset GEM_PATH
 	fi
 
 	PATH="${PATH#:}"; PATH="${PATH%:}"
@@ -47,15 +47,16 @@ function chruby_use()
 	export PATH="$RUBY_ROOT/bin:$PATH"
 
 	eval "$("$RUBY_ROOT/bin/ruby" - <<EOF
-begin; require 'rubygems'; rescue LoadError; end
+begin; require 'rbconfig'; rescue LoadError; end
 puts "export RUBY_ENGINE=#{defined?(RUBY_ENGINE) ? RUBY_ENGINE : 'ruby'};"
 puts "export RUBY_VERSION=#{RUBY_VERSION};"
-puts "export GEM_ROOT=#{Gem.default_dir.inspect};" if defined?(Gem)
+puts "export RUBY_API_VERSION=#{RbConfig::CONFIG["ruby_version"] rescue RUBY_VERSION}"
+begin; require 'rubygems'; puts "export GEM_ROOT=#{Gem.default_dir.inspect};"; rescue LoadError; end
 EOF
 )"
 
 	if (( $UID != 0 )); then
-		export GEM_HOME="$HOME/.gem/$RUBY_ENGINE/$RUBY_VERSION"
+		export GEM_HOME="$HOME/.gem/$RUBY_ENGINE/$RUBY_API_VERSION"
 		export GEM_PATH="$GEM_HOME${GEM_ROOT:+:$GEM_ROOT}${GEM_PATH:+:$GEM_PATH}"
 		export PATH="$GEM_HOME/bin${GEM_ROOT:+:$GEM_ROOT/bin}:$PATH"
 	fi
@@ -71,7 +72,7 @@ function chruby()
 	
 	case "$1" in
 		-h|--help)
-			echo "usage: chruby [RUBY|VERSION|system] [RUBY_OPTS]"
+			echo "usage: chruby [RUBY|VERSION|system] [RUBYOPT...]"
 			;;
 		-V|--version)
 			echo "chruby: $CHRUBY_VERSION"
